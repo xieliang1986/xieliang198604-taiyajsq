@@ -3,156 +3,588 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>谢亮自行车胎压计算器</title>
+    <title>自行车胎压计算器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f0f0f0;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        .calculator {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .calculator-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            background: var(--secondary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-header h2 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 25px;
         }
 
         .input-group {
-            margin-bottom: 15px;
+            flex: 1;
+            min-width: 250px;
         }
 
-        label {
+        .input-group label {
             display: block;
-            margin-bottom: 5px;
-            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-container {
+            position: relative;
         }
 
         input, select {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
+            padding: 14px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
         }
 
-        button {
-            background: #4CAF50;
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            background: white;
+        }
+
+        .unit {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
-            padding: 10px 20px;
             border: none;
-            border-radius: 4px;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 10px;
             cursor: pointer;
             width: 100%;
-            font-size: 16px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
         }
 
-        button:hover {
-            background: #45a049;
+        .btn-calculate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
         }
 
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background: #e8f5e9;
-            border-radius: 4px;
+        .btn-calculate:active {
+            transform: translateY(1px);
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
             display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .pressure-display {
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .pressure-display h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .pressure-value {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .pressure-range {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 5px 0;
+        }
+
+        .recommendation {
+            background: #e8f4fc;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+        }
+
+        .recommendation h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .tire-info {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .tire-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            border: 1px solid #eee;
+        }
+
+        .tire-card h4 {
+            margin-bottom: 15px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tire-card .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .info-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-section h3 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .info-card h4 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .pressure-value {
+                font-size: 2.5rem;
+            }
+            
+            .tire-info {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-body, .info-section {
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .pressure-value {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <h2>🚲 谢亮自行车胎压计算器</h2>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-bicycle"></i> 自行车胎压计算器</h1>
+            <p>根据您的体重、自行车类型和轮胎尺寸，精确计算最佳胎压</p>
+        </header>
         
-        <div class="input-group">
-            <label for="weight">体重 (kg):</label>
-            <input type="number" id="weight" min="20" max="200" step="0.1" required>
+        <div class="calculator-card">
+            <div class="card-header">
+                <h2><i class="fas fa-calculator"></i> 输入您的骑行信息</h2>
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="weight"><i class="fas fa-weight"></i> 骑手体重 (kg)</label>
+                        <div class="input-container">
+                            <input type="number" id="weight" min="20" max="200" step="0.1" placeholder="例如：68.5" required>
+                            <span class="unit">kg</span>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="bikeType"><i class="fas fa-bicycle"></i> 自行车类型</label>
+                        <select id="bikeType">
+                            <option value="公路车">公路自行车</option>
+                            <option value="山地车">山地自行车</option>
+                            <option value="混合车">混合/通勤自行车</option>
+                            <option value="gravel">Gravel自行车</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label id="tireLabel" for="tireWidth"><i class="fas fa-tire"></i> 轮胎宽度</label>
+                        <div class="input-container">
+                            <input type="number" id="tireWidth" step="0.1" placeholder="例如：25" required>
+                            <span class="unit" id="tireUnit">mm</span>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="load"><i class="fas fa-shopping-bag"></i> 额外负载 (kg)</label>
+                        <div class="input-container">
+                            <input type="number" id="load" min="0" max="50" step="0.1" placeholder="例如：5.2" value="0">
+                            <span class="unit">kg</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn-calculate" onclick="calculate()">
+                    <i class="fas fa-calculator"></i> 计算推荐胎压
+                </button>
+            </div>
         </div>
-
-        <div class="input-group">
-            <label for="bikeType">自行车类型:</label>
-            <select id="bikeType">
-                <option value="公路车">公路车</option>
-                <option value="山地车">山地车</option>
-                <option value="混合车">混合车</option>
-            </select>
+        
+        <div class="result-card" id="result">
+            <div class="result-header">
+                <i class="fas fa-tachometer-alt fa-2x"></i>
+                <h2>胎压计算结果</h2>
+            </div>
+            
+            <div class="pressure-display">
+                <h3><i class="fas fa-tire-pressure-warning"></i> 推荐胎压范围</h3>
+                <div class="pressure-value" id="pressureRange">85-95 PSI</div>
+                <div class="pressure-range">(5.9 - 6.5 bar)</div>
+            </div>
+            
+            <div class="tire-info">
+                <div class="tire-card">
+                    <h4><i class="fas fa-tire"></i> 前轮胎压</h4>
+                    <div class="value" id="frontTire">85 PSI</div>
+                    <div>(5.9 bar)</div>
+                </div>
+                
+                <div class="tire-card">
+                    <h4><i class="fas fa-tire"></i> 后轮胎压</h4>
+                    <div class="value" id="rearTire">95 PSI</div>
+                    <div>(6.5 bar)</div>
+                </div>
+            </div>
+            
+            <div class="recommendation">
+                <h4><i class="fas fa-lightbulb"></i> 专业建议</h4>
+                <p id="recommendationText">对于公路自行车，建议使用较高胎压以获得最佳性能。在潮湿路面可略微降低胎压增加抓地力。定期检查胎压可延长轮胎寿命并提高骑行效率。</p>
+            </div>
         </div>
-
-        <div class="input-group">
-            <label id="tireLabel" for="tireWidth">轮胎宽度 (mm):</label>
-            <input type="number" id="tireWidth" step="0.1" required>
+        
+        <div class="info-section">
+            <h3><i class="fas fa-info-circle"></i> 关于自行车胎压的专业知识</h3>
+            <p>正确的胎压对骑行效率、舒适性和安全性至关重要。胎压过高会降低抓地力并增加颠簸感，胎压过低则增加爆胎风险和滚动阻力。</p>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4><i class="fas fa-road"></i> 公路自行车</h4>
+                    <p>高压范围：80-130 PSI (5.5-9 bar)<br>窄胎需要更高压力</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4><i class="fas fa-mountain"></i> 山地自行车</h4>
+                    <p>低压范围：25-50 PSI (1.7-3.4 bar)<br>宽胎在低压力下表现更好</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4><i class="fas fa-bicycle"></i> 混合/Gravel车</h4>
+                    <p>中压范围：50-80 PSI (3.4-5.5 bar)<br>平衡舒适性与效率</p>
+                </div>
+            </div>
         </div>
-
-        <button onclick="calculate()">计算推荐胎压</button>
-
-        <div class="result" id="result">
-            <h3>推荐胎压范围：<span id="pressureRange"></span></h3>
-            <p>提示：根据路面情况调整，颠簸路面可适当降低胎压</p >
-        </div>
+        
+        <footer>
+            <p>© 2023 自行车胎压计算器 | 使用专业算法计算 | 建议每月检查胎压</p>
+        </footer>
     </div>
 
     <script>
         // 根据车型切换单位显示
         document.getElementById('bikeType').addEventListener('change', function() {
             const label = document.getElementById('tireLabel');
-            const input = document.getElementById('tireWidth');
+            const unit = document.getElementById('tireUnit');
             
             if(this.value === '山地车') {
-                label.innerHTML = '轮胎宽度 (英寸):';
-                input.placeholder = '例如：2.2';
+                label.innerHTML = '<i class="fas fa-tire"></i> 轮胎宽度 (英寸)';
+                unit.textContent = '英寸';
+                document.getElementById('tireWidth').placeholder = '例如：2.2';
             } else {
-                label.innerHTML = '轮胎宽度 (mm):';
-                input.placeholder = '例如：25';
+                label.innerHTML = '<i class="fas fa-tire"></i> 轮胎宽度';
+                unit.textContent = 'mm';
+                document.getElementById('tireWidth').placeholder = '例如：25';
             }
         });
+
+        // PSI转Bar换算
+        function psiToBar(psi) {
+            return (psi * 0.0689476).toFixed(1);
+        }
 
         // 计算函数
         function calculate() {
             // 获取输入值
-            const weight = parseFloat(document.getElementById('weight').value);
+            const weight = parseFloat(document.getElementById('weight').value) || 0;
             const bikeType = document.getElementById('bikeType').value;
-            const tireWidth = parseFloat(document.getElementById('tireWidth').value);
+            const tireWidth = parseFloat(document.getElementById('tireWidth').value) || 0;
+            const load = parseFloat(document.getElementById('load').value) || 0;
+            
+            const totalWeight = weight + load;
 
             // 验证输入
             if(!weight || !tireWidth) {
-                alert("请输入所有必要参数");
+                alert("请输入体重和轮胎宽度");
                 return;
             }
 
-            let low, high;
+            let frontLow, frontHigh, rearLow, rearHigh;
+            let recommendationText = "";
 
-            // 计算逻辑
+            // 改进的计算逻辑
             switch(bikeType) {
                 case '公路车':
+                    // 基于体重、胎宽和负载的更精确计算
                     const roadBase = 23;
-                    low = weight * 1.4 - (tireWidth - roadBase) * 2;
-                    high = weight * 1.6 - (tireWidth - roadBase) * 2;
+                    const roadFactor = 1.25;
+                    
+                    frontLow = totalWeight * 1.1 * roadFactor - (tireWidth - roadBase) * 1.8;
+                    frontHigh = totalWeight * 1.2 * roadFactor - (tireWidth - roadBase) * 1.8;
+                    rearLow = totalWeight * 1.3 * roadFactor - (tireWidth - roadBase) * 1.8;
+                    rearHigh = totalWeight * 1.4 * roadFactor - (tireWidth - roadBase) * 1.8;
+                    
+                    recommendationText = "对于公路自行车，建议使用较高胎压以获得最佳性能。在潮湿路面可略微降低胎压增加抓地力。定期检查胎压可延长轮胎寿命并提高骑行效率。";
                     break;
                 
                 case '山地车':
+                    // 山地车使用英寸单位
                     const mtbBase = 2.0;
-                    const delta = (tireWidth - mtbBase) * 10;
-                    low = weight * 0.4 - delta;
-                    high = weight * 0.6 - delta;
+                    const mtbFactor = 0.45;
+                    const delta = (tireWidth - mtbBase) * 8; // 更平缓的变化
+                    
+                    frontLow = totalWeight * 0.35 * mtbFactor - delta;
+                    frontHigh = totalWeight * 0.45 * mtbFactor - delta;
+                    rearLow = totalWeight * 0.5 * mtbFactor - delta;
+                    rearHigh = totalWeight * 0.6 * mtbFactor - delta;
+                    
+                    recommendationText = "山地自行车建议使用较低胎压以提高抓地力和舒适性。在崎岖地形可进一步降低胎压（但不要低于最低推荐值）。注意过低胎压会增加蛇咬风险。";
                     break;
                 
                 case '混合车':
                     const hybridBase = 28;
-                    low = weight * 0.8 - (tireWidth - hybridBase);
-                    high = weight * 1.0 - (tireWidth - hybridBase);
+                    const hybridFactor = 0.7;
+                    
+                    frontLow = totalWeight * 0.65 * hybridFactor - (tireWidth - hybridBase) * 0.8;
+                    frontHigh = totalWeight * 0.75 * hybridFactor - (tireWidth - hybridBase) * 0.8;
+                    rearLow = totalWeight * 0.85 * hybridFactor - (tireWidth - hybridBase) * 0.8;
+                    rearHigh = totalWeight * 0.95 * hybridFactor - (tireWidth - hybridBase) * 0.8;
+                    
+                    recommendationText = "混合自行车需要平衡效率与舒适性。根据路面情况调整胎压 - 平整路面使用较高胎压，颠簸路面降低胎压。携带重物时适当增加胎压。";
+                    break;
+                    
+                case 'gravel':
+                    const gravelBase = 38;
+                    const gravelFactor = 0.6;
+                    
+                    frontLow = totalWeight * 0.5 * gravelFactor - (tireWidth - gravelBase) * 0.7;
+                    frontHigh = totalWeight * 0.6 * gravelFactor - (tireWidth - gravelBase) * 0.7;
+                    rearLow = totalWeight * 0.65 * gravelFactor - (tireWidth - gravelBase) * 0.7;
+                    rearHigh = totalWeight * 0.75 * gravelFactor - (tireWidth - gravelBase) * 0.7;
+                    
+                    recommendationText = "Gravel自行车需要多功能胎压设置。在铺装路面使用较高胎压，越野时降低10-15%胎压。考虑安装无内胎系统以获得更好的低压性能。";
                     break;
             }
 
             // 处理边界条件
-            low = Math.max(Math.round(low), 20);
-            high = Math.max(Math.round(high), low + 10);
+            frontLow = Math.max(Math.round(frontLow), 15);
+            frontHigh = Math.max(Math.round(frontHigh), frontLow + 5);
+            rearLow = Math.max(Math.round(rearLow), 15);
+            rearHigh = Math.max(Math.round(rearHigh), rearLow + 5);
+            
+            // 设置上限（安全限制）
+            const maxPressure = bikeType === '山地车' ? 50 : 120;
+            frontHigh = Math.min(frontHigh, maxPressure);
+            rearHigh = Math.min(rearHigh, maxPressure);
 
             // 显示结果
-            document.getElementById('pressureRange').textContent = `${low}-${high} psi`;
+            document.getElementById('pressureRange').textContent = `${frontLow}-${frontHigh} PSI (前轮) / ${rearLow}-${rearHigh} PSI (后轮)`;
+            document.getElementById('frontTire').textContent = `${Math.round((frontLow + frontHigh)/2)} PSI`;
+            document.getElementById('rearTire').textContent = `${Math.round((rearLow + rearHigh)/2)} PSI`;
+            document.getElementById('recommendationText').textContent = recommendationText;
             document.getElementById('result').style.display = 'block';
+            
+            // 滚动到结果
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
         }
+        
+        // 初始加载时设置默认值
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('weight').value = '70';
+            document.getElementById('tireWidth').value = '28';
+        });
     </script>
 </body>
 </html>
