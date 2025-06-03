@@ -307,6 +307,44 @@
             gap: 8px;
         }
 
+        .info-card p {
+            line-height: 1.6;
+        }
+
+        .tire-pressure-chart {
+            margin-top: 25px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--secondary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #e8f4fc;
+        }
+
         footer {
             text-align: center;
             color: rgba(255, 255, 255, 0.8);
@@ -331,6 +369,10 @@
             .tire-info {
                 flex-direction: column;
             }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
@@ -344,6 +386,11 @@
             
             .pressure-value {
                 font-size: 2rem;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -456,6 +503,58 @@
                     <p>中压范围：50-80 PSI (3.4-5.5 bar)<br>平衡舒适性与效率</p>
                 </div>
             </div>
+            
+            <div class="tire-pressure-chart">
+                <h4><i class="fas fa-table"></i> 胎压参考表</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>自行车类型</th>
+                            <th>轮胎宽度</th>
+                            <th>骑手体重 (kg)</th>
+                            <th>推荐胎压 (PSI)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>公路自行车</td>
+                            <td>23-25mm</td>
+                            <td>60-70kg</td>
+                            <td>90-110</td>
+                        </tr>
+                        <tr>
+                            <td>公路自行车</td>
+                            <td>28-32mm</td>
+                            <td>60-70kg</td>
+                            <td>70-90</td>
+                        </tr>
+                        <tr>
+                            <td>山地自行车</td>
+                            <td>2.0-2.2英寸</td>
+                            <td>60-70kg</td>
+                            <td>30-40</td>
+                        </tr>
+                        <tr>
+                            <td>山地自行车</td>
+                            <td>2.3-2.5英寸</td>
+                            <td>60-70kg</td>
+                            <td>25-35</td>
+                        </tr>
+                        <tr>
+                            <td>混合自行车</td>
+                            <td>35-40mm</td>
+                            <td>60-70kg</td>
+                            <td>50-70</td>
+                        </tr>
+                        <tr>
+                            <td>Gravel自行车</td>
+                            <td>38-45mm</td>
+                            <td>60-70kg</td>
+                            <td>35-55</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         
         <footer>
@@ -520,15 +619,16 @@
                     break;
                 
                 case '山地车':
-                    // 山地车使用英寸单位
+                    // 山地车使用英寸单位 - 改进的公式
                     const mtbBase = 2.0;
-                    const mtbFactor = 0.45;
-                    const delta = (tireWidth - mtbBase) * 8; // 更平缓的变化
+                    const mtbFactor = 0.4;
+                    const mtbAdjust = 5; // 基础调整值
                     
-                    frontLow = totalWeight * 0.35 * mtbFactor - delta;
-                    frontHigh = totalWeight * 0.45 * mtbFactor - delta;
-                    rearLow = totalWeight * 0.5 * mtbFactor - delta;
-                    rearHigh = totalWeight * 0.6 * mtbFactor - delta;
+                    // 更符合实际的公式
+                    frontLow = (totalWeight * mtbFactor) / tireWidth + mtbAdjust;
+                    frontHigh = frontLow * 1.2;
+                    rearLow = (totalWeight * mtbFactor * 1.2) / tireWidth + mtbAdjust;
+                    rearHigh = rearLow * 1.2;
                     
                     recommendationText = "山地自行车建议使用较低胎压以提高抓地力和舒适性。在崎岖地形可进一步降低胎压（但不要低于最低推荐值）。注意过低胎压会增加蛇咬风险。";
                     break;
@@ -559,14 +659,31 @@
             }
 
             // 处理边界条件
-            frontLow = Math.max(Math.round(frontLow), 15);
+            let minPressure = 15;
+            let maxPressure = 120;
+            
+            // 根据不同车型设置不同压力范围
+            if(bikeType === '山地车') {
+                minPressure = 20;
+                maxPressure = 50;
+            } else if(bikeType === 'gravel') {
+                minPressure = 30;
+                maxPressure = 80;
+            } else if(bikeType === '混合车') {
+                minPressure = 40;
+                maxPressure = 90;
+            }
+            
+            // 应用边界限制
+            frontLow = Math.max(Math.round(frontLow), minPressure);
             frontHigh = Math.max(Math.round(frontHigh), frontLow + 5);
-            rearLow = Math.max(Math.round(rearLow), 15);
+            rearLow = Math.max(Math.round(rearLow), minPressure);
             rearHigh = Math.max(Math.round(rearHigh), rearLow + 5);
             
-            // 设置上限（安全限制）
-            const maxPressure = bikeType === '山地车' ? 50 : 120;
+            // 设置上限
+            frontLow = Math.min(frontLow, maxPressure);
             frontHigh = Math.min(frontHigh, maxPressure);
+            rearLow = Math.min(rearLow, maxPressure);
             rearHigh = Math.min(rearHigh, maxPressure);
 
             // 显示结果
