@@ -9,427 +9,480 @@
     <style>
         /* 全局重置和基础设置 */
         * {
-            box-sizing: border-box; /* 元素尺寸包含padding和border */
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        /* CSS变量定义，方便主题管理和复用 */
+        /* CSS变量定义 */
         :root {
-            --primary: #3498db;      /* 主色调 - 蓝色 */
-            --secondary: #2c3e50;    /* 辅助色 - 深蓝色 */
-            --success: #2ecc71;      /* 成功色 - 绿色 */
-            --warning: #f39c12;     /* 警告色 - 橙色 */
-            --danger: #e74c3c;       /* 危险色 - 红色 */
-            --light: #f8f9fa;        /* 浅色背景 */
-            --dark: #343a40;         /* 深色文本 */
-            --gray: #6c757d;         /* 灰色文本 */
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
         }
 
         /* 整体页面样式 */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 现代无衬线字体 */
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); /* 渐变背景 */
-            color: #333; /* 主文本颜色 */
-            line-height: 1.6; /* 行高设置 */
-            padding: 20px; /* 页面内边距 */
-            min-height: 100vh; /* 最小高度为视口高度 */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
             display: flex;
-            justify-content: center; /* 水平居中 */
-            align-items: center; /* 垂直居中 */
+            justify-content: center;
+            align-items: center;
         }
 
         /* 主容器样式 */
         .container {
-            max-width: 800px; /* 最大宽度 */
-            margin: 0 auto; /* 水平居中 */
-            width: 100%; /* 宽度100% */
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         /* 页眉样式 */
         header {
             text-align: center;
             margin-bottom: 30px;
-            color: white; /* 白色文本 */
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* 文本阴影增强可读性 */
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         header h1 {
-            font-size: 2.5rem; /* 大标题字号 */
+            font-size: 2.5rem;
             margin-bottom: 10px;
             display: flex;
-            align-items: center; /* 垂直居中图标和文本 */
-            justify-content: center; /* 水平居中 */
-            gap: 15px; /* 图标和文本间距 */
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
 
         header p {
-            font-size: 1.1rem; /* 描述文本字号 */
-            max-width: 600px; /* 最大宽度 */
-            margin: 0 auto; /* 水平居中 */
-            opacity: 0.9; /* 轻微透明 */
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
         }
 
         /* 计算器卡片样式 */
         .calculator-card {
-            background: rgba(255, 255, 255, 0.95); /* 半透明白色背景 */
-            border-radius: 20px; /* 圆角 */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* 阴影效果 */
-            overflow: hidden; /* 隐藏溢出内容 */
-            margin-bottom: 30px; /* 底部外边距 */
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin-bottom: 30px;
         }
 
         /* 卡片头部样式 */
         .card-header {
-            background: var(--secondary); /* 使用辅助色 */
-            color: white; /* 白色文本 */
-            padding: 20px; /* 内边距 */
-            text-align: center; /* 文本居中 */
+            background: var(--secondary);
+            color: white;
+            padding: 20px;
+            text-align: center;
         }
 
         .card-header h2 {
-            font-size: 1.8rem; /* 标题字号 */
+            font-size: 1.8rem;
             display: flex;
-            align-items: center; /* 垂直居中图标和文本 */
-            justify-content: center; /* 水平居中 */
-            gap: 10px; /* 图标和文本间距 */
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         /* 卡片主体样式 */
         .card-body {
-            padding: 30px; /* 内边距 */
+            padding: 30px;
         }
 
         /* 表单行布局 */
         .form-row {
             display: flex;
-            flex-wrap: wrap; /* 允许换行 */
-            gap: 20px; /* 元素间距 */
-            margin-bottom: 25px; /* 底部外边距 */
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 25px;
         }
 
         /* 输入组样式 */
         .input-group {
-            flex: 1; /* 弹性填充 */
-            min-width: 250px; /* 最小宽度 */
+            flex: 1;
+            min-width: 250px;
         }
 
         .input-group label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600; /* 加粗 */
-            color: var(--secondary); /* 使用辅助色 */
+            font-weight: 600;
+            color: var(--secondary);
             display: flex;
-            align-items: center; /* 垂直居中图标和文本 */
-            gap: 8px; /* 图标和文本间距 */
+            align-items: center;
+            gap: 8px;
         }
 
-        /* 输入容器（用于单位显示） */
+        /* 输入容器 */
         .input-container {
-            position: relative; /* 相对定位 */
+            position: relative;
         }
 
         /* 输入框和选择框样式 */
         input, select {
             width: 100%;
-            padding: 14px 15px; /* 内边距 */
-            border: 2px solid #ddd; /* 边框 */
-            border-radius: 10px; /* 圆角 */
-            font-size: 1rem; /* 字号 */
-            transition: all 0.3s ease; /* 过渡动画 */
-            background: #f8f9fa; /* 背景色 */
+            padding: 14px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
         }
 
         /* 输入框和选择框获得焦点时的样式 */
         input:focus, select:focus {
-            outline: none; /* 去除默认轮廓 */
-            border-color: var(--primary); /* 主色调边框 */
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); /* 聚焦阴影 */
-            background: white; /* 白色背景 */
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            background: white;
         }
 
         /* 单位标签样式 */
         .unit {
-            position: absolute; /* 绝对定位 */
-            right: 15px; /* 右侧位置 */
-            top: 50%; /* 垂直居中 */
-            transform: translateY(-50%); /* 精确垂直居中 */
-            color: var(--gray); /* 灰色文本 */
-            font-size: 0.9rem; /* 字号 */
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* 开关样式 */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
         }
 
         /* 计算按钮样式 */
         .btn-calculate {
-            background: linear-gradient(to right, var(--primary), var(--secondary)); /* 渐变背景 */
-            color: white; /* 白色文本 */
-            border: none; /* 无边框 */
-            padding: 16px; /* 内边距 */
-            font-size: 1.1rem; /* 字号 */
-            font-weight: 600; /* 加粗 */
-            border-radius: 10px; /* 圆角 */
-            cursor: pointer; /* 指针样式 */
-            width: 100%; /* 宽度100% */
-            transition: all 0.3s ease; /* 过渡动画 */
-            margin-top: 10px; /* 顶部外边距 */
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4); /* 阴影效果 */
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
         }
 
         /* 按钮悬停效果 */
         .btn-calculate:hover {
-            transform: translateY(-3px); /* 上移效果 */
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6); /* 增强阴影 */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
         }
 
         /* 按钮按下效果 */
         .btn-calculate:active {
-            transform: translateY(1px); /* 下移效果 */
+            transform: translateY(1px);
         }
 
         /* 结果卡片样式 */
         .result-card {
-            background: white; /* 白色背景 */
-            border-radius: 15px; /* 圆角 */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* 阴影效果 */
-            padding: 25px; /* 内边距 */
-            display: none; /* 初始隐藏 */
-            animation: fadeIn 0.5s ease; /* 淡入动画 */
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            display: none;
+            animation: fadeIn 0.5s ease;
         }
 
         /* 淡入动画关键帧 */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); } /* 起始状态 */
-            to { opacity: 1; transform: translateY(0); } /* 结束状态 */
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* 结果头部样式 */
         .result-header {
             display: flex;
-            align-items: center; /* 垂直居中 */
-            gap: 10px; /* 元素间距 */
-            margin-bottom: 20px; /* 底部外边距 */
-            color: var(--secondary); /* 使用辅助色 */
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: var(--secondary);
         }
 
         /* 胎压显示区域样式 */
         .pressure-display {
-            background: linear-gradient(to right, #3498db, #2c3e50); /* 渐变背景 */
-            color: white; /* 白色文本 */
-            text-align: center; /* 文本居中 */
-            padding: 25px; /* 内边距 */
-            border-radius: 12px; /* 圆角 */
-            margin-bottom: 20px; /* 底部外边距 */
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
         }
 
         .pressure-display h3 {
-            font-size: 1.2rem; /* 标题字号 */
-            margin-bottom: 15px; /* 底部外边距 */
+            font-size: 1.2rem;
+            margin-bottom: 15px;
             display: flex;
-            align-items: center; /* 垂直居中图标和文本 */
-            justify-content: center; /* 水平居中 */
-            gap: 10px; /* 图标和文本间距 */
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         /* 胎压值样式 */
         .pressure-value {
-            font-size: 3rem; /* 大字号 */
-            font-weight: 700; /* 加粗 */
-            margin: 10px 0; /* 上下外边距 */
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 10px 0;
         }
 
         /* 胎压范围样式 */
         .pressure-range {
-            font-size: 1.3rem; /* 较大字号 */
-            font-weight: 600; /* 加粗 */
-            margin: 5px 0; /* 上下外边距 */
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 5px 0;
         }
 
         /* 建议区域样式 */
         .recommendation {
-            background: #e8f4fc; /* 浅蓝色背景 */
-            border-left: 4px solid var(--primary); /* 左侧边框 */
-            padding: 15px; /* 内边距 */
-            border-radius: 0 8px 8px 0; /* 右侧圆角 */
-            margin-top: 20px; /* 顶部外边距 */
+            background: #e8f4fc;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
         }
 
         .recommendation h4 {
             display: flex;
-            align-items: center; /* 垂直居中图标和文本 */
-            gap: 10px; /* 图标和文本间距 */
-            margin-bottom: 10px; /* 底部外边距 */
-            color: var(--secondary); /* 使用辅助色 */
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: var(--secondary);
         }
 
         /* 轮胎信息区域样式 */
         .tire-info {
             display: flex;
-            justify-content: space-around; /* 均匀分布 */
-            margin-top: 25px; /* 顶部外边距 */
-            flex-wrap: wrap; /* 允许换行 */
-            gap: 20px; /* 元素间距 */
+            justify-content: space-around;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         /* 轮胎卡片样式 */
         .tire-card {
-            background: white; /* 白色背景 */
-            border-radius: 12px; /* 圆角 */
-            padding: 20px; /* 内边距 */
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08); /* 阴影效果 */
-            text-align: center; /* 文本居中 */
-            flex: 1; /* 弹性填充 */
-            min-width: 200px; /* 最小宽度 */
-            border: 1px solid #eee; /* 边框 */
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            border: 1px solid #eee;
         }
 
         .tire-card h4 {
-            margin-bottom: 15px; /* 底部外边距 */
-            color: var(--secondary); /* 使用辅助色 */
+            margin-bottom: 15px;
+            color: var(--secondary);
             display: flex;
-            align-items: center; /* 垂直居中图标和文本 */
-            justify-content: center; /* 水平居中 */
-            gap: 8px; /* 图标和文本间距 */
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         /* 轮胎数值样式 */
         .tire-card .value {
-            font-size: 1.8rem; /* 较大字号 */
-            font-weight: 700; /* 加粗 */
-            color: var(--primary); /* 主色调 */
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
         }
 
         /* 信息区域样式 */
         .info-section {
-            background: rgba(255, 255, 255, 0.95); /* 半透明白色背景 */
-            border-radius: 20px; /* 圆角 */
-            padding: 30px; /* 内边距 */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .info-section h3 {
-            color: var(--secondary); /* 使用辅助色 */
-            margin-bottom: 20px; /* 底部外边距 */
+            color: var(--secondary);
+            margin-bottom: 20px;
             display: flex;
-            align-items: center; /* 垂直居中图标和文本 */
-            gap: 10px; /* 图标和文本间距 */
-            font-size: 1.5rem; /* 较大字号 */
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
         }
 
         /* 信息网格布局 */
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 响应式网格 */
-            gap: 20px; /* 元素间距 */
-            margin-top: 20px; /* 顶部外边距 */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
 
         /* 信息卡片样式 */
         .info-card {
-            background: #f8f9fa; /* 浅灰色背景 */
-            border-radius: 12px; /* 圆角 */
-            padding: 20px; /* 内边距 */
-            border-left: 4px solid var(--primary); /* 左侧边框 */
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
         }
 
         .info-card h4 {
-            color: var(--secondary); /* 使用辅助色 */
-            margin-bottom: 10px; /* 底部外边距 */
+            color: var(--secondary);
+            margin-bottom: 10px;
             display: flex;
-            align-items: center; /* 垂直居中图标和文本 */
-            gap: 8px; /* 图标和文本间距 */
+            align-items: center;
+            gap: 8px;
         }
 
         .info-card p {
-            line-height: 1.6; /* 行高 */
+            line-height: 1.6;
         }
 
         /* 胎压参考表样式 */
         .tire-pressure-chart {
-            margin-top: 25px; /* 顶部外边距 */
-            overflow-x: auto; /* 水平滚动（小屏幕） */
+            margin-top: 25px;
+            overflow-x: auto;
         }
 
         /* 表格样式 */
         table {
-            width: 100%; /* 宽度100% */
-            border-collapse: collapse; /* 边框合并 */
-            background: white; /* 白色背景 */
-            border-radius: 8px; /* 圆角 */
-            overflow: hidden; /* 隐藏溢出 */
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08); /* 阴影效果 */
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
 
         th, td {
-            padding: 12px 15px; /* 单元格内边距 */
-            text-align: left; /* 文本左对齐 */
-            border-bottom: 1px solid #eee; /* 底部边框 */
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
         }
 
         /* 表头样式 */
         th {
-            background-color: var(--secondary); /* 辅助色背景 */
-            color: white; /* 白色文本 */
-            font-weight: 600; /* 加粗 */
+            background-color: var(--secondary);
+            color: white;
+            font-weight: 600;
         }
 
         /* 表格行样式 */
         tr:nth-child(even) {
-            background-color: #f8f9fa; /* 隔行背景色 */
+            background-color: #f8f9fa;
         }
 
         /* 行悬停效果 */
         tr:hover {
-            background-color: #e8f4fc; /* 悬停背景色 */
+            background-color: #e8f4fc;
         }
 
         /* 页脚样式 */
         footer {
-            text-align: center; /* 文本居中 */
-            color: rgba(255, 255, 255, 0.8); /* 半透明白色 */
-            margin-top: 30px; /* 顶部外边距 */
-            font-size: 0.9rem; /* 较小字号 */
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 30px;
+            font-size: 0.9rem;
         }
 
         /* 响应式设计 - 平板及以下 */
         @media (max-width: 768px) {
             .form-row {
-                flex-direction: column; /* 垂直布局 */
-                gap: 15px; /* 元素间距 */
+                flex-direction: column;
+                gap: 15px;
             }
             
             header h1 {
-                font-size: 2rem; /* 调整标题字号 */
+                font-size: 2rem;
             }
             
             .pressure-value {
-                font-size: 2.5rem; /* 调整胎压值字号 */
+                font-size: 2.5rem;
             }
             
             .tire-info {
-                flex-direction: column; /* 垂直布局 */
+                flex-direction: column;
             }
             
             .info-grid {
-                grid-template-columns: 1fr; /* 单列布局 */
+                grid-template-columns: 1fr;
             }
         }
 
         /* 响应式设计 - 手机 */
         @media (max-width: 480px) {
             .card-body, .info-section {
-                padding: 20px; /* 调整内边距 */
+                padding: 20px;
             }
             
             header h1 {
-                font-size: 1.8rem; /* 进一步调整标题字号 */
+                font-size: 1.8rem;
             }
             
             .pressure-value {
-                font-size: 2rem; /* 调整胎压值字号 */
+                font-size: 2rem;
             }
             
             th, td {
-                padding: 8px 10px; /* 调整表格单元格内边距 */
-                font-size: 0.9rem; /* 调整表格字号 */
+                padding: 8px 10px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -439,7 +492,7 @@
         <!-- 页眉区域 -->
         <header>
             <h1><i class="fas fa-bicycle"></i>谢亮 自行车胎压计算器</h1>
-            <p>根据您的体重、自行车类型和轮胎尺寸，精确计算最佳胎压</p>
+            <p>根据您的体重、自行车类型、轮胎尺寸和类型，精确计算最佳胎压</p>
         </header>
         
         <!-- 计算器卡片 -->
@@ -489,6 +542,28 @@
                             <input type="number" id="load" min="0" max="50" step="0.1" placeholder="例如：5.2" value="0">
                             <span class="unit">kg</span>
                         </div>
+                    </div>
+                </div>
+                
+                <!-- 第三行输入组 - 轮胎类型 -->
+                <div class="form-row">
+                    <!-- 轮胎类型选择 -->
+                    <div class="input-group">
+                        <label for="tireType"><i class="fas fa-tire"></i> 轮胎类型</label>
+                        <select id="tireType">
+                            <option value="普通胎">普通轮胎</option>
+                            <option value="真空胎">真空轮胎</option>
+                        </select>
+                    </div>
+                    
+                    <!-- 骑行风格选择 -->
+                    <div class="input-group">
+                        <label for="ridingStyle"><i class="fas fa-road"></i> 骑行风格</label>
+                        <select id="ridingStyle">
+                            <option value="舒适">舒适型</option>
+                            <option value="标准">标准型</option>
+                            <option value="竞技">竞技型</option>
+                        </select>
                     </div>
                 </div>
                 
@@ -556,6 +631,11 @@
                     <h4><i class="fas fa-bicycle"></i> 混合/Gravel车</h4>
                     <p>中压范围：50-80 PSI (3.4-5.5 bar)<br>平衡舒适性与效率</p>
                 </div>
+                
+                <div class="info-card">
+                    <h4><i class="fas fa-tire"></i> 真空轮胎</h4>
+                    <p>真空胎可使用更低胎压<br>提供更好的抓地力和舒适性<br>减少爆胎风险</p>
+                </div>
             </div>
             
             <!-- 胎压参考表 -->
@@ -566,6 +646,7 @@
                         <tr>
                             <th>自行车类型</th>
                             <th>轮胎宽度</th>
+                            <th>轮胎类型</th>
                             <th>骑手体重 (kg)</th>
                             <th>推荐胎压 (PSI)</th>
                         </tr>
@@ -574,38 +655,86 @@
                         <tr>
                             <td>公路自行车</td>
                             <td>23-25mm</td>
+                            <td>普通胎</td>
                             <td>60-70kg</td>
                             <td>90-110</td>
                         </tr>
                         <tr>
                             <td>公路自行车</td>
+                            <td>23-25mm</td>
+                            <td>真空胎</td>
+                            <td>60-70kg</td>
+                            <td>75-95</td>
+                        </tr>
+                        <tr>
+                            <td>公路自行车</td>
                             <td>28-32mm</td>
+                            <td>普通胎</td>
                             <td>60-70kg</td>
                             <td>70-90</td>
                         </tr>
                         <tr>
+                            <td>公路自行车</td>
+                            <td>28-32mm</td>
+                            <td>真空胎</td>
+                            <td>60-70kg</td>
+                            <td>60-80</td>
+                        </tr>
+                        <tr>
                             <td>山地自行车</td>
                             <td>2.0-2.2英寸</td>
+                            <td>普通胎</td>
                             <td>60-70kg</td>
                             <td>30-40</td>
                         </tr>
                         <tr>
                             <td>山地自行车</td>
-                            <td>2.3-2.5英寸</td>
+                            <td>2.0-2.2英寸</td>
+                            <td>真空胎</td>
                             <td>60-70kg</td>
                             <td>25-35</td>
                         </tr>
                         <tr>
+                            <td>山地自行车</td>
+                            <td>2.3-2.5英寸</td>
+                            <td>普通胎</td>
+                            <td>60-70kg</td>
+                            <td>25-35</td>
+                        </tr>
+                        <tr>
+                            <td>山地自行车</td>
+                            <td>2.3-2.5英寸</td>
+                            <td>真空胎</td>
+                            <td>60-70kg</td>
+                            <td>20-30</td>
+                        </tr>
+                        <tr>
                             <td>混合自行车</td>
                             <td>35-40mm</td>
+                            <td>普通胎</td>
                             <td>60-70kg</td>
                             <td>50-70</td>
                         </tr>
                         <tr>
+                            <td>混合自行车</td>
+                            <td>35-40mm</td>
+                            <td>真空胎</td>
+                            <td>60-70kg</td>
+                            <td>40-60</td>
+                        </tr>
+                        <tr>
                             <td>Gravel自行车</td>
                             <td>38-45mm</td>
+                            <td>普通胎</td>
                             <td>60-70kg</td>
                             <td>35-55</td>
+                        </tr>
+                        <tr>
+                            <td>Gravel自行车</td>
+                            <td>38-45mm</td>
+                            <td>真空胎</td>
+                            <td>60-70kg</td>
+                            <td>30-45</td>
                         </tr>
                     </tbody>
                 </table>
@@ -645,10 +774,12 @@
         // 主计算函数
         function calculate() {
             // 获取输入值
-            const weight = parseFloat(document.getElementById('weight').value) || 0; // 骑手体重
-            const bikeType = document.getElementById('bikeType').value; // 自行车类型
-            const tireWidth = parseFloat(document.getElementById('tireWidth').value) || 0; // 轮胎宽度
-            const load = parseFloat(document.getElementById('load').value) || 0; // 额外负载
+            const weight = parseFloat(document.getElementById('weight').value) || 0;
+            const bikeType = document.getElementById('bikeType').value;
+            const tireWidth = parseFloat(document.getElementById('tireWidth').value) || 0;
+            const load = parseFloat(document.getElementById('load').value) || 0;
+            const tireType = document.getElementById('tireType').value;
+            const ridingStyle = document.getElementById('ridingStyle').value;
             
             // 计算总重量
             const totalWeight = weight + load;
@@ -731,6 +862,35 @@
                     break;
             }
 
+            // 根据轮胎类型调整胎压
+            if (tireType === '真空胎') {
+                // 真空胎可以使用更低的胎压
+                frontLow *= 0.85;
+                frontHigh *= 0.85;
+                rearLow *= 0.85;
+                rearHigh *= 0.85;
+                
+                recommendationText += " 您使用的是真空轮胎，可以使用更低的胎压，提供更好的抓地力和舒适性，同时减少爆胎风险。";
+            }
+
+            // 根据骑行风格调整胎压
+            switch(ridingStyle) {
+                case '舒适':
+                    frontLow *= 0.9;
+                    frontHigh *= 0.9;
+                    rearLow *= 0.9;
+                    rearHigh *= 0.9;
+                    recommendationText += " 您选择了舒适型骑行风格，胎压已相应降低以提供更舒适的骑行体验。";
+                    break;
+                case '竞技':
+                    frontLow *= 1.1;
+                    frontHigh *= 1.1;
+                    rearLow *= 1.1;
+                    rearHigh *= 1.1;
+                    recommendationText += " 您选择了竞技型骑行风格，胎压已相应提高以获得更好的滚动效率和速度。";
+                    break;
+            }
+
             // 设置不同车型的最小和最大胎压
             let minPressure = 15;
             let maxPressure = 120;
@@ -774,11 +934,9 @@
         
         // 页面加载完成后设置默认值
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('weight').value = '70'; // 默认体重70kg
-            document.getElementById('tireWidth').value = '28'; // 默认胎宽28mm
+            document.getElementById('weight').value = '70';
+            document.getElementById('tireWidth').value = '28';
         });
     </script>
 </body>
 </html>
-
-
